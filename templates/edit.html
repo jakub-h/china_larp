@@ -1,0 +1,39 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+<div class="container">
+  <div class="page-header">
+    <h1>Profil občana: {{citizen.name}}</h1>
+  </div>
+  <hr>
+  <ul class="list-group">
+    <li class="list-group-item">Úroveň: {{citizen.getLevel()}}</li>
+    <li class="list-group-item">Skóre: {{citizen.score}}</li>
+    <li class="list-group-item">
+      <form class="form" method="POST" action="">
+        <div class="form-group">
+          <label for="score_update_value">Upravit skóre: </label>
+          <input type="number" class="form-control" name="score_update_value" min="1" max="99">
+        </div>
+        <button type="submit" class="btn btn-success" name="score_update" value="up">+</button>
+        <button type="submit" class="btn btn-danger" name="score_update" value="down">-</button>
+      </form>
+    </li>
+    <li class="list-group-item">
+      <form class="form" method="POST" action="">
+        <div class="form-group">
+          <label for="interaction_with">Sociální interakce s: </label>
+          <select class="form-control" name="interaction_with">
+            {% for other_citizen in citizens %}
+              {% if other_citizen.name != citizen.name %}
+                <option>{{other_citizen.name}}</option>
+              {% endif %}
+            {% endfor %}
+          </select>
+        </div>
+        <button type="submit" class="btn btn-primary" name="interaction">Potvdit</button>
+      </form>
+    </li>
+  </ul>
+</div>
+{% endblock %}

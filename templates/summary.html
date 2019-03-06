@@ -1,0 +1,28 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+
+<hr>
+<table class="table table-striped">
+  <tr>
+    <th>Jméno</th>
+    <th>Sociální úroveň</th>
+    <th></th>
+  </tr>
+  {% for citizen in citizens %}
+  <tr>
+    <td>{{citizen.name}}</td>
+    <td>{{citizen.getLevel()}}</td>
+    {% if session.admin %}
+      <td><a href="edit/{{citizen.name}}" class="btn btn-info btn-pull-right">Upravit</a></td>
+    {% else %}
+      <td>
+        <a href="downrate/{{citizen.name}}" class="btn btn-danger btn-pull-right">-</a>
+        <a href="uprate/{{citizen.name}}" class="btn btn-success">+</a>
+      </td>
+    {% endif %}
+  </tr>
+  {% endfor %}
+</table>
+
+{% endblock %}

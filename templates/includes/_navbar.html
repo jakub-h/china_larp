@@ -6,58 +6,29 @@
 
     <div class="collapse navbar-collapse" id="navbar1">
       <ul class="navbar-nav mr-auto">
+        {% if session.logged_in %}
+          <li class="nav-item active">
+              <a class="nav-link" href="/actions">Denní akce</a>
+          </li>
+        {% endif %}
         <li class="nav-item active">
           <a class="nav-link" href="/summary">Přehled občanů</a>
-        </li>
-        <li class="nav-item active">
-          <a class="nav-link" href="/actions">Denní akce</a>
         </li>
       </ul>
 
       <ul class="nav navbar-nav navbar-right">
         {% if session.logged_in %}
           <li class="nav-item">
-            <a class="nav-link" style="color:white" href="/logout">Odhlásit se</a>
+            <a class="nav-link" style="color:yellow" href="/logout">Odhlásit se</a>
           </li>
         {% else %}
           <li class="nav-item">
-            <a class="nav-link" style="color:white" href="/login">Přihlásit se</a>
+            <a class="nav-link" style="color:yellow" href="/login">Přihlásit se</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" style="color:white" href="/register">Registrace</a>
+            <a class="nav-link" style="color:yellow" href="/register">Registrace</a>
           </li>
         {% endif %}
       </ul>
     </div>
   </nav>
-
-<!--
-<nav class="navbar navbar-expand-md navbar-dark" style="background-color:red">
-  <a class="navbar-brand" href="/" style="color:yellow">社会信用体系</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-
-  <div class="collapse navbar-collapse" id="navbarsExampleDefault">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Link</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-      </li>
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
-        <div class="dropdown-menu" aria-labelledby="dropdown01">
-          <a class="dropdown-item" href="#">Action</a>
-          <a class="dropdown-item" href="#">Another action</a>
-          <a class="dropdown-item" href="#">Something else here</a>
-        </div>
-      </li>
-    </ul>
-  </div>
-</nav>
--->

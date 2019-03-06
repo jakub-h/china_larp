@@ -1,1 +1,1 @@
-{"_default": {"1": {"name": "test", "password": "test", "score": 0}, "2": {"name": "admin", "password": "admin", "score": 0}}}
+{"_default": {"1": {"name": "test", "password": "test", "score": 0, "num_of_ratings": 0}, "2": {"name": "admin", "password": "admin", "score": 0, "num_of_ratings": 0}, "3": {"name": "Alf", "password": "alf", "score": 0, "num_of_ratings": 0}, "4": {"name": "test2", "password": "test2", "score": 0, "num_of_ratings": 0}}}
