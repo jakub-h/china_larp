@@ -50,7 +50,12 @@ class CitizenManager:
         db = TinyDB(self.db_filename)
         query = Query()
         if citizen.name != None:
-            db.update(citizen.toDict(), query.name == citizen.name)
+            if citizen.score > 100:
+                citizen.score = 100
+            if citizen.score < 0:
+                citizen.score = 0
+            # Updated if exists, inserted if not
+            db.upsert(citizen.toDict(), query.name == citizen.name)
             db.close()
             return True
         db.close()
@@ -82,6 +87,11 @@ class CitizenManager:
         db = TinyDB(self.db_filename)
         query = Query()
         db.remove(query.name == name)
+        db.close()
+
+    def clearDb(self):
+        db = TinyDB(self.db_filename)
+        db.purge()
         db.close()
         
 

@@ -2,10 +2,12 @@ from flask import Flask, render_template, flash, redirect, url_for, session, req
 from wtforms import Form, StringField, TextAreaField, PasswordField, validators
 from citizen import Citizen, CitizenManager
 from functools import wraps
+import utils
 
 app = Flask(__name__)
 main_db = "static/db.json"
 daily_updates = "static/daily-updates.json"
+day = 0
 
 # Check if logged in
 def is_logged_in(f):
@@ -48,7 +50,7 @@ class RegisterForm(Form):
 @app.route('/')
 @app.route('/home')
 def home():
-    return render_template('home.html')
+    return render_template('home.html', day=day)
 
 # Register
 @app.route('/register', methods=['GET', 'POST'])
@@ -79,21 +81,12 @@ def login():
         name = request.form['name']
         password_candidate = request.form['password']
         
-        manager = CitizenManager(main_db)
-        user = manager.getByName(name)
+        user = utils.getActualVersion(name, main_db, daily_updates)
         if user:
             password = user.password
             if password == password_candidate:
                 session["logged_in"] = True
                 session["name"] = user.name
-                session["level"] = user.getLevel()
-                # Check num of ratings done today
-                manager = CitizenManager(daily_updates)
-                updates = manager.getByName(name)
-                if updates:
-                    session["num_of_ratings"] = updates.num_of_ratings
-                else:
-                    session["num_of_ratings"] = 0
                 # Check admin
                 if name == "admin":
                     session["admin"] = True
@@ -116,10 +109,12 @@ def logout():
 
 # Citizens summary
 @app.route('/summary')
+@is_logged_in
 def summary():
     manager = CitizenManager(main_db)
+    user = manager.getByName(session['name'])
     citizens = manager.getAll()
-    return render_template('summary.html', citizens=citizens)
+    return render_template('summary.html', user=user, citizens=citizens)
 
 # Edit citizen
 @app.route('/edit/<string:name>/', methods=['GET', 'POST'])
@@ -127,15 +122,15 @@ def summary():
 def edit(name):
     if request.method == "POST":
         if 'interaction' in request.form:
-            # TODO Socialni interakce
-            flash("Socialni interakce s: '" + request.form['interaction_with'] + "'", "warning")
+            utils.socailInteraction(name, request.form['interaction_with'], main_db, daily_updates)
+            flash("Socialni interakce s: '" + request.form['interaction_with'] + "'. Změna skóre se projeví příští den.", "warning")
         if 'score_update' in request.form:
             if request.form['score_update'] == "up":
-                # TODO Pridat body
-                flash("Update skore: +" + request.form['score_update_value'], "warning")
+                utils.addScore(name, int(request.form['score_update_value']), main_db, daily_updates)
+                flash("Update skore: +" + request.form['score_update_value'] + ". Změna skóre se projeví příští den.", "warning")
             if request.form['score_update'] == "down":
-                # TODO Odebrat body
-                flash("Update skore: -" + request.form['score_update_value'], "warning")
+                utils.addScore(name, -int(request.form['score_update_value']), main_db, daily_updates)
+                flash("Update skore: -" + request.form['score_update_value'] + ". Změna skóre se projeví příští den.", "warning")
     manager = CitizenManager(main_db)
     citizen = manager.getByName(name)
     citizens = manager.getAll()
@@ -145,18 +140,58 @@ def edit(name):
         flash("Uživatel '" + name + "' není v databázi.", "danger")
         return redirect(url_for('summary'))
 
+# Uprate
+@app.route('/uprate/<string:name>/')
+@is_logged_in
+def uprate(name):
+    if utils.rate(session['name'], name, 'up', main_db, daily_updates):
+        flash('Děkujeme za hodnocení.', 'success')
+    else:
+        flash('Dnes jsi již využil všechny své možnosti hodnotit.', 'danger')
+    return redirect(url_for('home'))
+
+# Downrate
+@app.route('/downrate/<string:name>/')
+@is_logged_in
+def downrate(name):
+    if utils.rate(session['name'], name, 'down', main_db, daily_updates):
+        flash('Děkujeme za hodnocení.', 'success')
+    else:
+        flash('Dnes jsi již využil všechny své možnosti hodnotit.', 'danger')
+    return redirect(url_for('home'))
+
+# Actions
+@app.route('/actions/<string:action>')
+@is_logged_in
+def actions(action):
+    utils.processAction(session['name'], action, main_db, daily_updates)
+    flash("Událost zaznamenána.", "info")
+    return redirect(url_for('home'))
+
 # Remove citizen
 @app.route('/remove/<string:name>/')
 @is_admin
 def remove(name):
     manager = CitizenManager(main_db)
-    if manager.removeByName(name):
-        flash("Uživatel '" + name + "' úspěšně vymazán.", "success")
-    else:
-        flash("Něco se pokazilo při mazání uživatele '" + name + "'. Nejspíš nebyl v databázi.", "danger")
+    manager.removeByName(name)
+    flash("Uživatel '" + name + "' úspěšně vymazán.", "success")
     return redirect(url_for('home'))
 
-
+# End the day
+@app.route('/end_day')
+@is_admin
+def end_day():
+    manager = CitizenManager(daily_updates)
+    updates = manager.getAll()
+    manager.clearDb()
+    manager = CitizenManager(main_db)
+    for citizen in updates:
+        citizen.num_of_ratings = 0
+        manager.update(citizen)
+    global day
+    day += 1 
+    return redirect(url_for('home'))
+    
 if __name__ == '__main__':
     app.secret_key = 'velmibezpecnyatajnyklic'
     app.run(host='0.0.0.0', debug=True)

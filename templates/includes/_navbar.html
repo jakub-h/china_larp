@@ -1,19 +1,21 @@
 <nav class="navbar navbar-dark navbar-expand-md" style="background-color:red">
+  {% if session.logged_in %}  
+    <a class="navbar-brand" href="/" style="color:yellow">社会信用体系 - {{ session.name }}</a>
+  {% else %}
     <a class="navbar-brand" href="/" style="color:yellow">社会信用体系</a>
+  {% endif %}
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar1">
       <span class="navbar-toggler-icon"></span>
     </button>
 
     <div class="collapse navbar-collapse" id="navbar1">
       <ul class="navbar-nav mr-auto">
-        {% if session.logged_in %}
-          <li class="nav-item active">
-              <a class="nav-link" href="/actions">Denní akce</a>
-          </li>
-        {% endif %}
         <li class="nav-item active">
           <a class="nav-link" href="/summary">Přehled občanů</a>
         </li>
+        {% if session.admin %}
+          <a href="/end_day" class="btn btn-outline-secondary" type="button">Nový den</a>
+        {% endif %}
       </ul>
 
       <ul class="nav navbar-nav navbar-right">

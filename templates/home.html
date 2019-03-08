@@ -1,22 +1,53 @@
 {% extends 'layout.html' %}
 
 {% block body %}
-  {% if session.logged_in %}
-    {% if session.admin %}
-      <div><h1>ADMIN</h1></div>
-    {% else %}
-      <div>
-        <h1>Občan: {{session.name}}</h1>
-        <h2>Aktuální sociální úroveň: {{session.level}}</h2>
-      </div>
-    {% endif %}
-  {% else %}
+<div class="jumbotron text-center">
+  <h1>Sláva našemu velkému vůdci 习近平</h1>
+  <hr>
+  <h2>Čína - {{ 9 + day }}. 3. 2021</h2>
+  {% if not session.logged_in %}
     <div class="jumbotron text-center">
       <a href="/register" class="btn btn-primary btn-lg">Registrace</a>
       <a href="/login" class="btn btn-success btn-lg">Přihlásit se</a>
     </div>
-  
   {% endif %}
-
-
+</div>
+{% if session.logged_in %}
+  {% if not session.admin %}
+    <table class="table table-striped">
+      <tr>
+        <th>Události</th>
+        <th></th>        
+      </tr>
+      <tr>
+        <td>Nesnědl jsem jídlo</td>
+        <td><a href="/action/food" class="btn btn-info">Potvrď</a></td>
+      </tr>
+      <tr>
+        <td>Hospoda</td>
+        <td><a href="/action/pub" class="btn btn-info">Potvrď</a></td>
+      </tr>
+      <tr>
+        <td>Dobrovolnická činnost</td>
+        <td><a href="/action/volunteer" class="btn btn-info">Potvrď</a></td>
+      </tr>
+      <tr>
+        <td>Starání se o rodiče</td>
+        <td><a href="/action/parents" class="btn btn-info">Potvrď</a></td>
+      </tr>
+      <tr>
+        <td>Salon krásy</td>
+        <td><a href="/action/beauty" class="btn btn-info">Potvrď</a></td>
+      </tr>
+      <tr>
+        <td>Šel jsem na červenou</td>
+        <td><a href="/action/red" class="btn btn-info">Potvrď</a></td>
+      </tr>
+      <tr>
+        <td>Internet</td>
+        <td><a href="/action/internet" class="btn btn-info">Potvrď</a></td>
+      </tr>
+    </table>
+  {% endif %}
+{% endif %}
 {% endblock %}
