@@ -12,6 +12,7 @@
         Skóre
       {% endif %}
     </th>
+    <th>Úroveň vzdělání</th>
     <th>
       {% if not session.admin %}
         Hodnotit
@@ -25,6 +26,11 @@
     <td>
       {% if session.admin or 2 > user.getLevel() %}
         {{citizen.score}}
+      {% endif %}
+    </td>
+    <td>
+      {% if session.admin or 2 > user.getLevel() or citizen.name == session.name %}
+        {{citizen.education}}
       {% endif %}
     </td>
     <td>

@@ -1,0 +1,32 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+<div class="container">
+  <div class="page-header">
+    <h1>Internet</h1>
+  </div>
+  <hr>
+  <ul class="list-group">
+    <li class="list-group-item">
+      <form class="form" method="POST" action="">
+        <div class="form-group">
+          <label for="camouflage">Spustil jsem hru nebo video</label>
+          <button type="submit" class="btn btn-primary" name="camouflage">Potvrdit</button>
+        </div>
+      </form>
+    </li>
+    {% if not already_hacked %}
+      <li class="list-group-item">
+        <form class="form" method="POST" action="">
+          <div class="form-group">
+            <label for="hacked-password">Administrátorské heslo do systému:</label>
+            <input type="password" name="hacked-password" class="form-control">
+          </div>
+          <button type="submit" class="btn btn-primary" name="hacking">Potvdit</button>
+        </form>
+      </li>
+    {% endif %}
+  </ul>
+</div>
+
+{% endblock %}

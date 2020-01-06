@@ -1,9 +1,10 @@
 from citizen import Citizen, CitizenManager
+from flask import flash, render_template
 
 
 def getActualVersion(name, main_db, daily_updates):
-    manager = CitizenManager(daily_updates)
-    updates = manager.getByName(name)
+    daily_manager = CitizenManager(daily_updates)
+    updates = daily_manager.getByName(name)
     if updates:
         return updates
     else:
@@ -15,19 +16,23 @@ def getMorningLevel(name, main_db):
     citizen = manager.getByName(name)
     return citizen.getLevel()
 
-def socailInteraction(first_name, second_name, main_db, daily_updates):
+def socailInteraction(name_a, name_b, main_db, daily_updates):
     # Get current level not affected by todays changes
-    first_level = getMorningLevel(first_name, main_db)
-    second_level = getMorningLevel(second_name, main_db)
+    citizen_a_level = getMorningLevel(name_a, main_db)
+    citizen_b_level = getMorningLevel(name_b, main_db)
+    citizen_a = getActualVersion(name_a, main_db, daily_updates)
+    citizen_b = getActualVersion(name_b, main_db, daily_updates)
 
-    first = getActualVersion(first_name, main_db, daily_updates)
-    second = getActualVersion(second_name, main_db, daily_updates)
-    first.score -= 2 * (first_level - second_level)
-    second.score += 2 * (first_level - second_level)
+    update = abs(citizen_a_level - citizen_b_level) * 2
+
+    # Lower level has interaction with higher level -> lower level gains points
+    # and higher level lose points.
+    citizen_a.score += update if citizen_a_level > citizen_b_level else -update
+    citizen_b.score += update if citizen_b_level > citizen_a_level else -update
 
     daily_manager = CitizenManager(daily_updates)
-    daily_manager.update(first)
-    daily_manager.update(second)
+    daily_manager.update(citizen_a)
+    daily_manager.update(citizen_b)
 
 def addScore(name, value, main_db, daily_updates):
     citizen = getActualVersion(name, main_db, daily_updates)
@@ -49,19 +54,18 @@ def rate(rating_name, rated_name, direction, main_db, daily_updates):
             else:
                 rated.score -= 3
             rating.score += 3
-            rating.num_of_ratings += 1
         elif direction == "up":
             rated_level = getMorningLevel(rated_name, main_db)
             if rated_level < 3:
                 rated.score += 3
             elif rated_level < 6:
-                rated.score +=2
+                rated.score += 2
             else:
                 rating.score -= 1
-            rating.num_of_ratings += 1
-        manager = CitizenManager(daily_updates)
-        manager.update(rating)
-        manager.update(rated)
+        rating.num_of_ratings += 1
+        daily_manager = CitizenManager(daily_updates)
+        daily_manager.update(rating)
+        daily_manager.update(rated)
         return True
     return False
 
@@ -69,21 +73,28 @@ def processAction(name, action, main_db, daily_updates):
     citizen = getActualVersion(name, main_db, daily_updates)
     if action == "food":
         citizen.score -= 20
-    if action == "pub":
+        flash("Dnes jsi nesnědl jídlo", "info")
+    elif action == "pub":
         citizen.score -= 3
-    if action == "volunteer":
+        flash("Dnes jsi navštívil hospodu", "info")
+    elif action == "school":
+        if citizen.education < 2:
+            citizen.education += 1
+            flash("Získal jsi {}. stupeň vzdělání. Změna se projeví zítra.".format(citizen.education), "info")
+        else:
+            flash("Nemůžeš překročit maximální možnou úroveň vzdělání (2).", "danger")
+    elif action == "volunteer":
         citizen.score += 5
-    if action == "parents":
+        flash("Čínská lidová republika ti děkujě za tvou dobrovolnickou činnost.", "info")
+    elif action == "parents":
         citizen.score += 4
-    if action == "beauty":
+        flash("Věnoval jsi čas svým starým rodičům.", "info")
+    elif action == "beauty":
         citizen.score += 7
-    if action == "red":
-        citizen.score -= 2
-    if action == "internet":
-        citizen.score -= 3
-    manager = CitizenManager(daily_updates)
-    manager.update(citizen)
-                
+        flash("Navštívil jsi salon krásy.", "info")
+    daily_manager = CitizenManager(daily_updates)
+    daily_manager.update(citizen)
+
     
 
 
