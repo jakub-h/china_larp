@@ -256,8 +256,7 @@ def end_day():
     logging.debug("Konec dne ({}.1. -> {}.1.) [zadal: {}]".format(10+day, 11+day, session['name']))
     return redirect(url_for('home'))
 
-
 # Main   
 if __name__ == '__main__':
     app.secret_key = 'velmibezpecnyatajnyklic'
-    app.run(host='0.0.0.0', port=5000, debug=False)
+    app.run(host='0.0.0.0', port=5000, debug=True)
