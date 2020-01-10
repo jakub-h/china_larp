@@ -1,6 +1,7 @@
 # Aplikace pro LARP podle Čínského systému sociálního kreditu
 
-Aplikace byla vyvinuta pro 15. brněnské skautské středisko Kompas.
+Aplikace byla vyvinuta pro 15. brněnské skautské středisko Kompas. Pravidla jsou stručně sepsané přímo v aplikaci.
+Pokud máte zájem o podrobnosti, neváhejte mě kontaktovat na hruska.jakub@skaut.cz.
 
 ## Požadavky
 - Python (3.6)
