@@ -17,7 +17,7 @@
           </li>
         </ul>
         <form class="form mb-3" method="POST" action="">
-          <div class="form-group">
+          <div class="mb-3">
             <label for="score_update_value">Upravit skóre</label>
             <input type="number" class="form-control" name="score_update_value" min="1" max="99" required>
           </div>
@@ -27,7 +27,7 @@
           </div>
         </form>
         <form class="form mb-3" method="POST" action="">
-          <div class="form-group">
+          <div class="mb-3">
             <label for="interaction_with">Sociální interakce s</label>
             <select class="form-control" name="interaction_with">
               {% for other_citizen in citizens %}
@@ -37,7 +37,7 @@
               {% endfor %}
             </select>
           </div>
-          <button type="submit" class="btn btn-primary btn-block" name="interaction">Potvrdit</button>
+          <button type="submit" class="btn btn-primary w-100" name="interaction">Potvrdit</button>
         </form>
         <div class="d-flex flex-column flex-md-row">
           <a href="../../remove/{{citizen.name}}" class="btn btn-danger mb-2 mb-md-0 mr-md-2"

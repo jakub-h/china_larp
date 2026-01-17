@@ -1,7 +1,7 @@
 {% extends 'layout.html' %}
 
 {% block body %}
-<div class="jumbotron text-center py-4 px-3 shadow-sm bg-white">
+<div class="text-center bg-white rounded-3 shadow-sm p-4 mb-3">
   <h1>Sláva našemu velkému vůdci 习近平!</h1>
   <hr>
   <h2>Čína - {{ 11 + day }}. 1. 2021</h2>
@@ -15,8 +15,8 @@
   </div>
   {% if not session.logged_in %}
   <div class="mt-4">
-    <a href="/register" class="btn btn-primary btn-lg btn-block mb-2">Registrace</a>
-    <a href="/login" class="btn btn-success btn-lg btn-block">Přihlásit se</a>
+    <a href="/register" class="btn btn-primary btn-lg w-100 mb-2">Registrace</a>
+    <a href="/login" class="btn btn-success btn-lg w-100">Přihlásit se</a>
   </div>
   {% endif %}
 </div>
@@ -30,37 +30,37 @@
     </tr>
     <tr>
       <td>Nesnědl jsem jídlo</td>
-      <td><a href="/actions/food" class="btn btn-info btn-sm btn-block"
-          onclick="return confirm('Opravdu jsi nesnědl jídlo?');">Potvrď</a></td>
+      <td><a href="/actions/food" class="btn btn-info btn-sm w-100"
+          onclick="return confirm('Opravdu jsi nesnědl/a jídlo?');">Potvrď</a></td>
     </tr>
     <tr>
       <td>Hospoda</td>
-      <td><a href="/actions/pub" class="btn btn-info btn-sm btn-block"
-          onclick="return confirm('Opravdu jsi šel do hospody?');">Potvrď</a></td>
+      <td><a href="/actions/pub" class="btn btn-info btn-sm w-100"
+          onclick="return confirm('Opravdu jsi šel/šla do hospody?');">Potvrď</a></td>
     </tr>
     <tr>
       <td>Dobrovolnická činnost</td>
-      <td><a href="/actions/volunteer" class="btn btn-info btn-sm btn-block"
-          onclick="return confirm('Opravdu jsi dělal dobrovolnickou činnost?');">Potvrď</a></td>
+      <td><a href="/actions/volunteer" class="btn btn-info btn-sm w-100"
+          onclick="return confirm('Opravdu jsi dělal/a dobrovolnickou činnost?');">Potvrď</a></td>
     </tr>
     <tr>
       <td>Starání se o rodiče</td>
-      <td><a href="/actions/parents" class="btn btn-info btn-sm btn-block"
-          onclick="return confirm('Opravdu jsi se staral o rodiče?');">Potvrď</a></td>
+      <td><a href="/actions/parents" class="btn btn-info btn-sm w-100"
+          onclick="return confirm('Opravdu jsi se staral/a o rodiče?');">Potvrď</a></td>
     </tr>
     <tr>
       <td>Salon krásy</td>
-      <td><a href="/actions/beauty" class="btn btn-info btn-sm btn-block"
-          onclick="return confirm('Opravdu jsi šel do salonu krásy?');">Potvrď</a></td>
+      <td><a href="/actions/beauty" class="btn btn-info btn-sm w-100"
+          onclick="return confirm('Opravdu jsi šel/šla do salonu krásy?');">Potvrď</a></td>
     </tr>
     <tr>
       <td>Škola</td>
-      <td><a href="/actions/school" class="btn btn-info btn-sm btn-block"
-          onclick="return confirm('Opravdu jsi šel do školy?');">Potvrď</a></td>
+      <td><a href="/actions/school" class="btn btn-info btn-sm w-100"
+          onclick="return confirm('Opravdu jsi šel/šla do školy?');">Potvrď</a></td>
     </tr>
     <tr>
       <td>Internet</td>
-      <td><a href="/actions/internet" class="btn btn-info btn-sm btn-block">Potvrď</a></td>
+      <td><a href="/actions/internet" class="btn btn-info btn-sm w-100">Potvrď</a></td>
     </tr>
   </table>
 </div>

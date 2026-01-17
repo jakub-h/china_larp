@@ -9,20 +9,20 @@
         <ul class="list-group list-group-flush">
           <li class="list-group-item px-0">
             <form class="form" method="POST" action="">
-              <div class="form-group">
+              <div class="mb-3">
                 <label for="camouflage">Spustil jsem hru nebo video</label>
-                <button type="submit" class="btn btn-primary btn-block" name="camouflage">Potvrdit</button>
+                <button type="submit" class="btn btn-primary w-100" name="camouflage">Potvrdit</button>
               </div>
             </form>
           </li>
           {% if not already_hacked %}
           <li class="list-group-item px-0">
             <form class="form" method="POST" action="">
-              <div class="form-group">
+              <div class="mb-3">
                 <label for="hacked-password">Administrátorské heslo do systému</label>
                 <input type="password" name="hacked-password" class="form-control">
               </div>
-              <button type="submit" class="btn btn-primary btn-block" name="hacking">Potvrdit</button>
+              <button type="submit" class="btn btn-primary w-100" name="hacking">Potvrdit</button>
             </form>
           </li>
           {% endif %}
