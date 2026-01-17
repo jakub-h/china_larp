@@ -40,7 +40,7 @@
           <button type="submit" class="btn btn-primary w-100" name="interaction">Potvrdit</button>
         </form>
         <div class="d-flex flex-column flex-md-row">
-          <a href="../../remove/{{citizen.name}}" class="btn btn-danger mb-2 mb-md-0 mr-md-2"
+          <a href="../../remove/{{citizen.name}}" class="btn btn-danger mb-2 mb-md-0 me-md-2"
             onclick="return confirm('Opravdu chceš smazat občana {{citizen.name}}?');">Smazat občana</a>
           <a href="{{ url_for('summary') }}" class="btn btn-secondary">Zrušit</a>
         </div>
