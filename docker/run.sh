@@ -12,7 +12,7 @@ source ./docker/common.sh
 docker_run_args=(
 	--rm
 	-it
-	-p 5000:5000
+	-p "${HOST_PORT:-5000}:5000"
 	--mount "type=bind,source=$(pwd -P),target=/mnt/workspace"
 	-w /mnt/workspace
 	"${IMAGE_TAG}"
