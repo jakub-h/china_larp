@@ -1,44 +1,51 @@
 {% extends 'layout.html' %}
 
 {% block body %}
-<div class="container">
-  <div class="page-header">
-    <h1>Profil občana: {{citizen.name}}</h1>
+<div class="row justify-content-center">
+  <div class="col-12 col-md-8">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h1 class="h4 mb-3">Profil občana: {{citizen.name}}</h1>
+        <ul class="list-group list-group-flush mb-3">
+          <li class="list-group-item d-flex justify-content-between">
+            <span>Úroveň</span>
+            <strong>{{citizen.get_level()}}</strong>
+          </li>
+          <li class="list-group-item d-flex justify-content-between">
+            <span>Skóre</span>
+            <strong>{{citizen.score}}</strong>
+          </li>
+        </ul>
+        <form class="form mb-3" method="POST" action="">
+          <div class="form-group">
+            <label for="score_update_value">Upravit skóre</label>
+            <input type="number" class="form-control" name="score_update_value" min="1" max="99" required>
+          </div>
+          <div class="btn-group btn-group-sm d-flex" role="group">
+            <button type="submit" class="btn btn-success w-50" name="score_update" value="up">+</button>
+            <button type="submit" class="btn btn-danger w-50" name="score_update" value="down">-</button>
+          </div>
+        </form>
+        <form class="form mb-3" method="POST" action="">
+          <div class="form-group">
+            <label for="interaction_with">Sociální interakce s</label>
+            <select class="form-control" name="interaction_with">
+              {% for other_citizen in citizens %}
+              {% if other_citizen.name != citizen.name %}
+              <option>{{other_citizen.name}}</option>
+              {% endif %}
+              {% endfor %}
+            </select>
+          </div>
+          <button type="submit" class="btn btn-primary btn-block" name="interaction">Potvrdit</button>
+        </form>
+        <div class="d-flex flex-column flex-md-row">
+          <a href="../../remove/{{citizen.name}}" class="btn btn-danger mb-2 mb-md-0 mr-md-2"
+            onclick="return confirm('Opravdu chceš smazat občana {{citizen.name}}?');">Smazat občana</a>
+          <a href="{{ url_for('summary') }}" class="btn btn-secondary">Zrušit</a>
+        </div>
+      </div>
+    </div>
   </div>
-  <hr>
-  <ul class="list-group">
-    <li class="list-group-item">Úroveň: {{citizen.get_level()}}</li>
-    <li class="list-group-item">Skóre: {{citizen.score}}</li>
-    <li class="list-group-item">
-      <form class="form" method="POST" action="">
-        <div class="form-group">
-          <label for="score_update_value">Upravit skóre: </label>
-          <input type="number" class="form-control" name="score_update_value" min="1" max="99" required>
-        </div>
-        <button type="submit" class="btn btn-success" name="score_update" value="up">+</button>
-        <button type="submit" class="btn btn-danger" name="score_update" value="down">-</button>
-      </form>
-    </li>
-    <li class="list-group-item">
-      <form class="form" method="POST" action="">
-        <div class="form-group">
-          <label for="interaction_with">Sociální interakce s: </label>
-          <select class="form-control" name="interaction_with">
-            {% for other_citizen in citizens %}
-            {% if other_citizen.name != citizen.name %}
-            <option>{{other_citizen.name}}</option>
-            {% endif %}
-            {% endfor %}
-          </select>
-        </div>
-        <button type="submit" class="btn btn-primary" name="interaction">Potvdit</button>
-      </form>
-    </li>
-    <li class="list-group-item">
-      <a href="../../remove/{{citizen.name}}" class="btn btn-danger"
-        onclick="return confirm('Opravdu chceš smazat občana {{citizen.name}}?');">Smazat občana</a>
-      <a href="{{ url_for('summary') }}" class="btn btn-secondary">Zrušit</a>
-    </li>
-  </ul>
 </div>
 {% endblock %}

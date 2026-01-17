@@ -1,7 +1,7 @@
 {% extends 'layout.html' %}
 
 {% block body %}
-<div class="jumbotron text-center">
+<div class="jumbotron text-center py-4 px-3 shadow-sm bg-white">
   <h1>Sláva našemu velkému vůdci 习近平!</h1>
   <hr>
   <h2>Čína - {{ 11 + day }}. 1. 2021</h2>
@@ -11,51 +11,59 @@
     <p>
       <a href="{{ public_base_url }}">{{ public_base_url }}</a>
     </p>
-    <img src="{{ url_for('qr_svg') }}" alt="QR kód pro připojení" style="max-width: 220px; width: 100%;" />
+    <img class="img-fluid mt-2" src="{{ url_for('qr_svg') }}" alt="QR kód pro připojení" style="max-width: 220px;" />
   </div>
   {% if not session.logged_in %}
-    <div class="jumbotron text-center">
-      <a href="/register" class="btn btn-primary btn-lg">Registrace</a>
-      <a href="/login" class="btn btn-success btn-lg">Přihlásit se</a>
-    </div>
+  <div class="mt-4">
+    <a href="/register" class="btn btn-primary btn-lg btn-block mb-2">Registrace</a>
+    <a href="/login" class="btn btn-success btn-lg btn-block">Přihlásit se</a>
+  </div>
   {% endif %}
 </div>
 {% if session.logged_in %}
-  {% if not session.admin %}
-    <table class="table table-striped">
-      <tr>
-        <th>Události</th>
-        <th></th>
-      </tr>
-      <tr>
-        <td>Nesnědl jsem jídlo</td>
-        <td><a href="/actions/food" class="btn btn-info" onclick="return confirm('Opravdu jsi nesnědl jídlo?');">Potvrď</a></td>
-      </tr>
-      <tr>
-        <td>Hospoda</td>
-        <td><a href="/actions/pub" class="btn btn-info" onclick="return confirm('Opravdu jsi šel do hospody?');">Potvrď</a></td>
-      </tr>
-      <tr>
-        <td>Dobrovolnická činnost</td>
-        <td><a href="/actions/volunteer" class="btn btn-info" onclick="return confirm('Opravdu jsi dělal dobrovolnickou činnost?');">Potvrď</a></td>
-      </tr>
-      <tr>
-        <td>Starání se o rodiče</td>
-        <td><a href="/actions/parents" class="btn btn-info" onclick="return confirm('Opravdu jsi se staral o rodiče?');">Potvrď</a></td>
-      </tr>
-      <tr>
-        <td>Salon krásy</td>
-        <td><a href="/actions/beauty" class="btn btn-info" onclick="return confirm('Opravdu jsi šel do salonu krásy?');">Potvrď</a></td>
-      </tr>
-      <tr>
-        <td>Škola</td>
-        <td><a href="/actions/school" class="btn btn-info" onclick="return confirm('Opravdu jsi šel do školy?');">Potvrď</a></td>
-      </tr>
-      <tr>
-        <td>Internet</td>
-        <td><a href="/actions/internet" class="btn btn-info">Potvrď</a></td>
-      </tr>
-    </table>
-  {% endif %}
+{% if not session.admin %}
+<div class="table-responsive">
+  <table class="table table-striped table-sm align-middle">
+    <tr>
+      <th>Události</th>
+      <th></th>
+    </tr>
+    <tr>
+      <td>Nesnědl jsem jídlo</td>
+      <td><a href="/actions/food" class="btn btn-info btn-sm btn-block"
+          onclick="return confirm('Opravdu jsi nesnědl jídlo?');">Potvrď</a></td>
+    </tr>
+    <tr>
+      <td>Hospoda</td>
+      <td><a href="/actions/pub" class="btn btn-info btn-sm btn-block"
+          onclick="return confirm('Opravdu jsi šel do hospody?');">Potvrď</a></td>
+    </tr>
+    <tr>
+      <td>Dobrovolnická činnost</td>
+      <td><a href="/actions/volunteer" class="btn btn-info btn-sm btn-block"
+          onclick="return confirm('Opravdu jsi dělal dobrovolnickou činnost?');">Potvrď</a></td>
+    </tr>
+    <tr>
+      <td>Starání se o rodiče</td>
+      <td><a href="/actions/parents" class="btn btn-info btn-sm btn-block"
+          onclick="return confirm('Opravdu jsi se staral o rodiče?');">Potvrď</a></td>
+    </tr>
+    <tr>
+      <td>Salon krásy</td>
+      <td><a href="/actions/beauty" class="btn btn-info btn-sm btn-block"
+          onclick="return confirm('Opravdu jsi šel do salonu krásy?');">Potvrď</a></td>
+    </tr>
+    <tr>
+      <td>Škola</td>
+      <td><a href="/actions/school" class="btn btn-info btn-sm btn-block"
+          onclick="return confirm('Opravdu jsi šel do školy?');">Potvrď</a></td>
+    </tr>
+    <tr>
+      <td>Internet</td>
+      <td><a href="/actions/internet" class="btn btn-info btn-sm btn-block">Potvrď</a></td>
+    </tr>
+  </table>
+</div>
+{% endif %}
 {% endif %}
 {% endblock %}
