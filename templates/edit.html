@@ -7,7 +7,7 @@
   </div>
   <hr>
   <ul class="list-group">
-    <li class="list-group-item">Úroveň: {{citizen.getLevel()}}</li>
+    <li class="list-group-item">Úroveň: {{citizen.get_level()}}</li>
     <li class="list-group-item">Skóre: {{citizen.score}}</li>
     <li class="list-group-item">
       <form class="form" method="POST" action="">
@@ -25,9 +25,9 @@
           <label for="interaction_with">Sociální interakce s: </label>
           <select class="form-control" name="interaction_with">
             {% for other_citizen in citizens %}
-              {% if other_citizen.name != citizen.name %}
-                <option>{{other_citizen.name}}</option>
-              {% endif %}
+            {% if other_citizen.name != citizen.name %}
+            <option>{{other_citizen.name}}</option>
+            {% endif %}
             {% endfor %}
           </select>
         </div>
@@ -35,7 +35,9 @@
       </form>
     </li>
     <li class="list-group-item">
-      <a href="../../remove/{{citizen.name}}" class="btn btn-danger" onclick="return confirm('Jsi si jist?');">Smazat</a>
+      <a href="../../remove/{{citizen.name}}" class="btn btn-danger"
+        onclick="return confirm('Opravdu chceš smazat občana {{citizen.name}}?');">Smazat občana</a>
+      <a href="{{ url_for('summary') }}" class="btn btn-secondary">Zrušit</a>
     </li>
   </ul>
 </div>

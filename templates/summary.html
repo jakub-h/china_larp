@@ -8,41 +8,41 @@
     <th>Jméno</th>
     <th>Sociální úroveň</th>
     <th>
-      {% if session.admin or 2 > user.getLevel() %}
-        Skóre
+      {% if session.admin or 2 > user.get_level() %}
+      Skóre
       {% endif %}
     </th>
     <th>Úroveň vzdělání</th>
     <th>
       {% if not session.admin %}
-        Hodnotit
+      Hodnotit
       {% endif %}
     </th>
   </tr>
   {% for citizen in citizens %}
   <tr>
     <td>{{citizen.name}}</td>
-    <td>{{citizen.getLevel()}}</td>
+    <td>{{citizen.get_level()}}</td>
     <td>
-      {% if session.admin or 2 > user.getLevel() %}
-        {{citizen.score}}
+      {% if session.admin or 2 > user.get_level() %}
+      {{citizen.score}}
       {% endif %}
     </td>
     <td>
-      {% if session.admin or 2 > user.getLevel() or citizen.name == session.name %}
-        {{citizen.education}}
+      {% if session.admin or 2 > user.get_level() or citizen.name == session.name %}
+      {{citizen.education}}
       {% endif %}
     </td>
     <td>
       {% if session.admin %}
-        <a href="edit/{{citizen.name}}" class="btn btn-info btn-pull-right">Upravit</a></td>
+      <a href="edit/{{citizen.name}}" class="btn btn-info btn-pull-right">Upravit</a>
       {% else %}
-        {% if citizen.name != session.name %}
-            <a href="downrate/{{citizen.name}}" class="btn btn-danger btn-pull-right">-</a>
-            <a href="uprate/{{citizen.name}}" class="btn btn-success">+</a>
-        {% endif %}
+      {% if citizen.name != session.name %}
+      <a href="downrate/{{citizen.name}}" class="btn btn-danger btn-pull-right">-</a>
+      <a href="uprate/{{citizen.name}}" class="btn btn-success">+</a>
       {% endif %}
-    </tr>
+      {% endif %}
+    </td>
   </tr>
   {% endfor %}
 </table>

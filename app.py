@@ -6,7 +6,6 @@ import io
 import logging
 from collections.abc import Callable
 from functools import wraps
-from logging import FileHandler
 from typing import Any
 
 import segno
@@ -27,41 +26,12 @@ from wtforms import Form, PasswordField, StringField, validators
 
 import utils
 from citizen import Citizen, CitizenManager
+from logging_utils import configure_logging
 
-
-class DebugFileHandler(FileHandler):
-    """A file handler that only persists DEBUG logs."""
-
-    def __init__(
-        self,
-        filename: str,
-        mode: str = "a",
-        encoding: str | None = None,
-        delay: bool = False,
-    ) -> None:
-        """Create a debug-only file handler."""
-
-        super().__init__(filename, mode, encoding, delay)
-
-    def emit(self, record: logging.LogRecord) -> None:
-        """Write a log record to file if it is DEBUG."""
-
-        if record.levelno != logging.DEBUG:
-            return
-        super().emit(record)
-
-
-# set up logging to file - see previous section for more details
-logging.basicConfig(
-    filename="debug.log",
-    level=logging.DEBUG,
-    format="%(asctime)s %(levelname)s : %(message)s",
-    datefmt="%m-%d %H:%M:%S",
-)
-# add the handler to the root logger
-logging.getLogger("app-logger").addHandler(DebugFileHandler("debug.log"))
+configure_logging()
 
 app = Flask(__name__)
+app.secret_key = utils.get_secret_key()
 
 MAIN_DB = "static/db.json"
 DAILY_UPDATES_DB = "static/daily-updates.json"
@@ -226,7 +196,7 @@ def login() -> ResponseReturnValue:
                 session[SESSION_LOGGED_IN] = True
                 session[SESSION_NAME] = user.name
                 # Check admin
-                if name.startswith("admin_"):
+                if name.startswith("admin_") or "admin" in name:
                     session[SESSION_ADMIN] = True
                 flash("Nyní jsi přihlášen", "success")
                 return redirect(url_for("home"))
