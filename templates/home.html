@@ -5,6 +5,14 @@
   <h1>Sláva našemu velkému vůdci 习近平!</h1>
   <hr>
   <h2>Čína - {{ 11 + day }}. 1. 2021</h2>
+  <hr>
+  <div class="text-center">
+    <h5>Adresa hry</h5>
+    <p>
+      <a href="{{ public_base_url }}">{{ public_base_url }}</a>
+    </p>
+    <img src="{{ url_for('qr_svg') }}" alt="QR kód pro připojení" style="max-width: 220px; width: 100%;" />
+  </div>
   {% if not session.logged_in %}
     <div class="jumbotron text-center">
       <a href="/register" class="btn btn-primary btn-lg">Registrace</a>
@@ -17,7 +25,7 @@
     <table class="table table-striped">
       <tr>
         <th>Události</th>
-        <th></th>        
+        <th></th>
       </tr>
       <tr>
         <td>Nesnědl jsem jídlo</td>
