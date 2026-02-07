@@ -145,7 +145,7 @@ class CitizenManager:
             True if inserted; False if already exists.
         """
 
-        db = TinyDB(self.db_filename)
+        db = TinyDB(self.db_filename, indent=2)
         query = Query()
         try:
             if not db.contains(query.name == citizen.name):
@@ -177,7 +177,7 @@ class CitizenManager:
         citizen.num_of_ratings = max(int(citizen.num_of_ratings), 0)
         citizen.education = min(max(int(citizen.education), 0), 2)
 
-        db = TinyDB(self.db_filename)
+        db = TinyDB(self.db_filename, indent=2)
         query = Query()
         try:
             db.upsert(citizen.to_dict(), query.name == citizen.name)
@@ -188,7 +188,7 @@ class CitizenManager:
     def get_all(self) -> list[Citizen]:
         """Return all non-admin citizens."""
 
-        db = TinyDB(self.db_filename)
+        db = TinyDB(self.db_filename, indent=2)
         try:
             return [
                 self._construct_citizen_from_record(person)
@@ -201,7 +201,7 @@ class CitizenManager:
     def get_by_name(self, name: str) -> Citizen | None:
         """Return a citizen by name."""
 
-        db = TinyDB(self.db_filename)
+        db = TinyDB(self.db_filename, indent=2)
         query = Query()
         try:
             db_result = db.search(query.name == name)
@@ -214,7 +214,7 @@ class CitizenManager:
     def remove_by_name(self, name: str) -> None:
         """Remove a citizen by name."""
 
-        db = TinyDB(self.db_filename)
+        db = TinyDB(self.db_filename, indent=2)
         query = Query()
         try:
             db.remove(query.name == name)
@@ -223,7 +223,7 @@ class CitizenManager:
 
     def clear_db(self) -> None:
         """Remove all rows from the database."""
-        db = TinyDB(self.db_filename)
+        db = TinyDB(self.db_filename, indent=2)
         try:
             # tinydb>=4: purge() was removed; truncate() clears all docs.
             db.truncate()

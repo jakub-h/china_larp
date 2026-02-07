@@ -4,15 +4,8 @@
 <div class="text-center bg-white rounded-3 shadow-sm p-4 mb-3">
   <h1>Sláva našemu velkému vůdci 习近平!</h1>
   <hr>
-  <h2>Čína - {{ 11 + day }}. 1. 2021</h2>
+  <h2>Čína - {{ 7 + day }}. 2. 2026</h2>
   <hr>
-  <div class="text-center">
-    <h5>Adresa hry</h5>
-    <p>
-      <a href="{{ public_base_url }}">{{ public_base_url }}</a>
-    </p>
-    <img class="img-fluid mt-2" src="{{ url_for('qr_svg') }}" alt="QR kód pro připojení" style="max-width: 220px;" />
-  </div>
   {% if not session.logged_in %}
   <div class="mt-4">
     <a href="/register" class="btn btn-primary btn-lg w-100 mb-2">Registrace</a>
@@ -58,10 +51,10 @@
       <td><a href="/actions/school" class="btn btn-info btn-sm w-100"
           onclick="return confirm('Opravdu jsi šel/šla do školy?');">Potvrď</a></td>
     </tr>
-    <tr>
+    <!-- <tr>
       <td>Internet</td>
       <td><a href="/actions/internet" class="btn btn-info btn-sm w-100">Potvrď</a></td>
-    </tr>
+    </tr> -->
   </table>
 </div>
 {% endif %}
